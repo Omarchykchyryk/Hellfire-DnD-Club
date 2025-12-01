@@ -1,3 +1,11 @@
 #logo {
     text-align: center;
 }
+.par {
+    font-size: 30px;
+}
+.hl {
+    font-size: 72px;
+    text-align: center;
+    font-family: fantasy;
+}
