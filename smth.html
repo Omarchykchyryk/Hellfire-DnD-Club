@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Таблица</title>
 </head>
 <body>
@@ -11,46 +10,46 @@
 <script>
 async function loadTable() {
     const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtRpwz0K4XzMujJbHQm7BkiseYA8Id2qIw6jGVsU-VeXGhJQXib0ThjY4WP3FEh3H2z2o9OgkVGRbQ/pub?output=csv";
-
+//ССЫЛКУ НА CSV, НЕ АЙДИ, НЕ СЛУШАЙ НИКОГО И ВСТАВЛЯЙ ССЫЛКУ
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Fetch failed");
+        if (!response.ok) throw new Error("Не считывает, напортачено с самим щитсом");
         const text = await response.text();
 
         let rows = text.trim().split("\n").map(r => r.split(","));
 
-        let html = "<table border='1' cellspacing='0' cellpadding='4'>";
+        let html = "<table border='1' cellspacing='0' cellpadding='4' width="100%">"; //Если начнёт гнать убери ширину
 
-        // Первая строка – заголовки
+        // Заголовки? Не трогать, работает исправно
         html += "<tr>";
         rows[0].forEach(h => html += `<th>${h}</th>`);
         html += "</tr>";
 
-        // Начинаем со второй строки
+        // Строчки
         for (let r = 1; r < rows.length; r++) {
             html += "<tr>";
 
             for (let c = 0; c < rows[r].length; c++) {
-                // Пропускаем ячейки, которые уже были объединены
+                // Скрипт для скипа после роуспана
                 if (rows[r][c] === "__skip__") continue;
 
                 let value = rows[r][c];
                 let rowspan = 1;
 
-                // Смотрим вниз, чтобы найти одинаковые ячейки
+                // Отсчёт вниз для определения одинаковых ячеек
                 let nextRow = r + 1;
                 while (
                     nextRow < rows.length &&
                     rows[nextRow][c] === value &&
-                    value !== "" &&
-                    c !== 0 // НЕНУЖНО объединять колонку Время
+                    value !== "" && //НЕ ЗАБЫВАТЬ ПРО АМПЕСРАНДЫ, БЕЗ НИХ НИЧЕГО НЕ РАБОТАЕТ ИДИОТ
+                    c !== 0 //Что вообще значит !==
                 ) {
                     rowspan++;
-                    rows[nextRow][c] = "__skip__"; // помечаем как поглощённую
-                    nextRow++;
+                    rows[nextRow][c] = "__skip__"; // Получается он здесь помечает строчку как принадлежащую к ряду подряд идущих
+                    nextRow++; 
                 }
 
-                // Генерим ячейку
+                // НЕ ТРОГАТЬ, не совсем понял как, но оно нужно для слития
                 if (rowspan > 1)
                     html += `<td rowspan="${rowspan}">${value}</td>`;
                 else
@@ -59,18 +58,18 @@ async function loadTable() {
 
             html += "</tr>";
         }
-
+//Вот эту всю белиберду снизу не трогать, индус знает что делает
         html += "</table>";
         document.getElementById("table").innerHTML = html;
 
     } catch (e) {
         console.log(e);
-        document.getElementById("table").innerHTML = "Ошибка загрузки данных";
+        document.getElementById("table").innerHTML = "Данные не загружаются. Доступ? Считываемость? Возможно ты открываешь с диска а не с гх, ИДИОТ ИДИОТ ИДИОТ";
     }
 }
 
 loadTable();
-setInterval(loadTable, 5000);
+setInterval(loadTable, 5000); //Ей-богу, не трогай ты это время, никто не умрёт от того что подождёт 5 секунд с изменения таблицы
 </script>
 <p>Не работает твоя пурга</p>
 </body>
