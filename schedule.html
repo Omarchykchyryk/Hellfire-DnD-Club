@@ -4,7 +4,28 @@
     <title>Таблица</title>
 </head>
 <body>
+    <p>The current month and year is: <b id="displayDate"></b></p>
 
+    <!-- JavaScript code to get and display the date -->
+    <script>
+        // Function to get the current date and format it
+        function getCurrentMonthAndYear() {
+            const date = new Date();
+            const year = date.getFullYear();
+            
+            // getMonth() returns a zero-based index (0 for January, 11 for December)
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June', 
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            const monthName = months[date.getMonth()];
+            
+            return `${monthName} ${year}`;
+        }
+
+        // Place the result into the HTML element with the id "displayDate"
+        document.getElementById('displayDate').textContent = getCurrentMonthAndYear();
+    </script>
 <div id="table"></div>
 
 <script>
