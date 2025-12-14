@@ -31,7 +31,7 @@
 </head>
 <body>
 
-  <img id="mainImage" src="image1.jpg" alt="Image" />
+  <img id="mainImage" src="Images/HellfireLogo.png" alt="Image" />
 
   <button id="actionBtn">Нажми меня</button>
 
@@ -39,9 +39,9 @@
     const img = document.getElementById('mainImage');
     const btn = document.getElementById('actionBtn');
 
-    const defaultImage = 'image1.jpg';
-    const secondImage = 'image2.jpg';
-    const thirdImage = 'image3.jpg';
+    const defaultImage = 'Images/HellfireLogo.png';
+    const secondImage = 'Images/MasterBG.png';
+    const thirdImage = 'Images/SpookyCult.png';
 
     let clickCount = 0;
     let isAnimating = false;
@@ -53,7 +53,7 @@
 
       // третий клик — переход на другую страницу
       if (clickCount >= 3) {
-        window.location.href = 'otherpage.html';
+        window.location.href = 'index.html';
         return;
       }
 
